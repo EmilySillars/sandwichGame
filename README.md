@@ -1,2 +1,2 @@
 # sandwichGame
-sandwich simulator playable inside terminal
+This is a sandwich simulator playable inside a terminal window.
