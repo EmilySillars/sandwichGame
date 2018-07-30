@@ -9,9 +9,13 @@
 */
 
 #include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdlib.h>
 
 void main() {
-	 char input[20];
+	//need to use fgets to read line, then use scanf to parse that line.
+	 char input[7];
 	 printf("address of input is %p\n",input);
 	 //three states, introduction screen, menu screen, and game.
     const INTRO = 0;
@@ -21,6 +25,20 @@ void main() {
      char state = INTRO;
 
      scanf("%6s",input);
+ 
+     while((strcmp(input,"quit") != 0)){
+    if(state == GAME){
+     	    	printf("in the game.\n");
+    }
+    else if(state == RULES){
+    	printf("in the game.\n");
+    }
+    else{
+    	//change to rules screen
+    	printf("in the game.\n");
+    }
+    scanf("%6s",input);
+     }
      printf("you typed %s\n", input);
      printf("address of input is %p\n",input);
     /* similar to System.out.printf */
