@@ -14,8 +14,8 @@ void main() {
     /* similar to System.out.printf */
     char * str = "hello there\n";  
    //char ** strArray = 
-    printf("Hello world! (sandwich.c)\n");
-    printf("%s",str);
+    printf("\nWELCOME TO ...\n\n");
+    //printf("%s",str);
     
     str =" ss      aa     nn    n  dd     w       w  ii   cc    hh   hh\n";
      printf("%s",str);
@@ -31,6 +31,14 @@ void main() {
     printf("%s",str);
    str = " ss                      dd                     cc    hh   hh\n";
     printf("%s",str);
+    
+
+    str ="     __                 _  ___ _   _\n";
+    printf("%s",str);
+	str ="     \\  | |\\/| | | |   |_|  | / \\ |_\\\n";
+	printf("%s",str);
+	str ="     _\\ | |  | |_| |__ | |  | \\_/ | \\\n\n";
+	printf("%s",str);
 
 
      
@@ -117,6 +125,11 @@ them and decide if they need fixing.
     ssss  aa    aa  n     n  d dd   ww    www  ii cc  cc  hh   hh
      ss                      dd                     cc    hh   hh
 */
+
+/*	  __                 _  ___ _   _
+	  \  | |\/| | | |   |_|  | / \ |_\
+	  _\ | |  | |_| |__ | |  | \_/ | \
+	  */
 
 /*
     	 ____________________________     _____
