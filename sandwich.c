@@ -11,17 +11,24 @@
 #include <stdio.h>
 
 void main() {
-	 char * input = 1;
+	 char input[20];
+	 printf("address of input is %p\n",input);
 	 //three states, introduction screen, menu screen, and game.
     const INTRO = 0;
     const RULES = 1;
     const GAME = 2;
     //ONE state
      char state = INTRO;
+
+     scanf("%6s",input);
+     printf("you typed %s\n", input);
+     printf("address of input is %p\n",input);
     /* similar to System.out.printf */
     //char * str = "hello there\n";  
-   
-
+   //while(((*input) = scanf("%s"))!= &"quit"){
+   //printf("in the game.\n");
+   //}
+/*
    //char ** strArray = 
     printf("\nWelcome to\n SANDWICH SIMULATOR!\n\n Press ENTER to start!\n");
    
@@ -36,6 +43,7 @@ void main() {
     	//change to rules screen
 
     }
+    */
     //printf("%s",str);
 
 
