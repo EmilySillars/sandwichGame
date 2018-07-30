@@ -10,12 +10,14 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
-#include <stdlib.h>
+
 
 void main() {
 	//need to use fgets to read line, then use scanf to parse that line.
-	 char input[7];
+	 const WORDSIZE = 7;
+	 const LINESIZE = 50;
+	 char input[WORDSIZE];
+	 char line[LINESIZE];
 	 printf("address of input is %p\n",input);
 	 //three states, introduction screen, menu screen, and game.
     const INTRO = 0;
@@ -23,7 +25,25 @@ void main() {
     const GAME = 2;
     //ONE state
      char state = INTRO;
-
+     fgets(line, LINESIZE, stdin);
+     //printf("%s",line);
+     while((strcmp(line,"quit") != 0)){
+     	printf("%s\n",line);
+    if(state == GAME){
+     	    	printf("in the game.\n");
+    }
+    else if(state == RULES){
+    	printf("in the game.\n");
+    }
+    else{
+    	//change to rules screen
+    	printf("in the game.\n");
+    }
+    fgets(line, LINESIZE, stdin);
+     }
+     printf("you typed %s\n", input);
+     printf("address of input is %p\n",input);
+/*
      scanf("%6s",input);
  
      while((strcmp(input,"quit") != 0)){
@@ -41,11 +61,9 @@ void main() {
      }
      printf("you typed %s\n", input);
      printf("address of input is %p\n",input);
-    /* similar to System.out.printf */
-    //char * str = "hello there\n";  
-   //while(((*input) = scanf("%s"))!= &"quit"){
-   //printf("in the game.\n");
-   //}
+  */
+
+/***********************************************************************************************************/
 /*
    //char ** strArray = 
     printf("\nWelcome to\n SANDWICH SIMULATOR!\n\n Press ENTER to start!\n");
