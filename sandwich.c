@@ -13,38 +13,76 @@
 
 
 void main() {
-	//need to use fgets to read line, then use scanf to parse that line.
-	 const WORDSIZE = 7;
-	 const LINESIZE = 50;
-	 char input[WORDSIZE];
-	 char line[LINESIZE];
-	 printf("address of input is %p\n",input);
-	 //three states, introduction screen, menu screen, and game.
+    //three states, introduction screen, menu screen, and game.
     const INTRO = 0;
     const RULES = 1;
     const GAME = 2;
-    //ONE state
-     char state = INTRO;
+	const WORDSIZE = 7; //max word size of seven characters, including null terminator.
+	const LINESIZE = 50; //max line size of 50 characters. Any more and game might break.
+	char input[WORDSIZE]; //input string (one 7 character word, max).
+	char line[LINESIZE]; //input line (50 characters, max).
+    int bytes = 0;
+    int nybbles = 0;
+    int crumbs = 0;
+	//printf("address of input is %p\n",input);
+    char * introText = "\nWELCOME TO SANDWICH SIMULATOR!\nThis is placeholder text until we get fancy graphics...\nType 'start' and then press ENTER to begin.\n";
+    char * rulesText = "\nThese are the placeholder rules:\n1.Type 'byte'+ press ENTER to bite the sandwich. \n2.Type 'nybble' + press ENTER to nibble the sandwich.\n3.Press ENTER to repeat the previous command.\n4.Type 'help' + press ENTER to return to this screen.\n5.Type 'quit' + press ENTER to quit the game.\n\nType 'start' + press ENTER for sandwich!\n";
+    char * gameText = "\nIn the game. Byte or nybble. Type help for the rules.\nBytes: %n Nybbles: %n Crumbs Left: Unknown.\n"; 
+     char state = INTRO; //begin with introduction screen.
+     printf("\nWELCOME TO SANDWICH SIMULATOR!\nThis is placeholder text until we get fancy graphics...\nType 'start' and then press ENTER to begin.\n");
+     //need to use fgets to read line, then use sscanf to parse that line.
      fgets(line, LINESIZE, stdin);
      sscanf(line,"%6s",input);
      while((strcmp(input,"quit") != 0)){
-     	printf("%s\n",line);
+     	//printf("%s\n",input);
         if(state == GAME){
-     	    	printf("in the game.\n");
+     	   switch(input){
+            case "nybble":
+            nybbles ++;
+            printf("%s",gameText);
+            break;
+            case "byte":
+            bytes++;
+            printf("%s",gameText);
+            break;
+            case "help":
+            state = RULES;
+            printf("%s", rulesText);
+            break;
+            default:
+            printf("\nsorry, that command is not recognized. check your spelling and type again, or type 'help' to see the rules.\n");
+            break;
+           }
         }
         else if(state == RULES){
-    	printf("in the game.\n");
+    	   switch(input){
+            case "start":
+            state = GAME;
+            printf("%s",gameText);
+            break;
+            case "help":
+            state = RULES;
+            printf("%s", rulesText);
+            break;
+            default:
+            printf("\nsorry, that command is not recognized. check your spelling and type again, or type 'help' to see the rules.\n");
+            break;
+           }
         }
         else{
-    	//change to rules screen
-    	printf("in the game.\n");
+            if(strcmp(input,"start") == 0){
+            //change to rules screen
+            state = RULES;
+            printf("%s", rulesText);
+            }
+    	//printf("in the game.\n");
         }
     fgets(line, LINESIZE, stdin);
     sscanf(line,"%6s",input);
      }
-
+     //BREAK OUT OF WHILE LO0P
      printf("you typed %s\n", input);
-     printf("address of input is %p\n",input);
+     //printf("address of input is %p\n",input);
 /*
      scanf("%6s",input);
  
