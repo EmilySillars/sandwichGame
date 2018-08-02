@@ -26,21 +26,23 @@ void main() {
     //ONE state
      char state = INTRO;
      fgets(line, LINESIZE, stdin);
-     //printf("%s",line);
-     while((strcmp(line,"quit") != 0)){
+     sscanf(line,"%6s",input);
+     while((strcmp(input,"quit") != 0)){
      	printf("%s\n",line);
-    if(state == GAME){
+        if(state == GAME){
      	    	printf("in the game.\n");
-    }
-    else if(state == RULES){
+        }
+        else if(state == RULES){
     	printf("in the game.\n");
-    }
-    else{
+        }
+        else{
     	//change to rules screen
     	printf("in the game.\n");
-    }
+        }
     fgets(line, LINESIZE, stdin);
+    sscanf(line,"%6s",input);
      }
+
      printf("you typed %s\n", input);
      printf("address of input is %p\n",input);
 /*
