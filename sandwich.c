@@ -12,10 +12,10 @@
 #include <string.h>
 #include <math.h>
     //char * length = "\nI am a sandwich.\n";
-    char sandwich[18] = "I am a sandwich.\n";
+    //char sandwich[18] = "I am a sandwich.\n";
 
-    int startIndex = 0;
-    int endIndex = 17;
+    int startIndex = 17;
+    int endIndex = 1159;
     char tempChar = 0;
 
     int bytes = 0;
@@ -313,18 +313,18 @@ bite(){
         bytes ++;
         bitsLeft -= 8;
         if(bitsLeft == 0){
-          sandwich[startIndex] = 0;
+          sandy[startIndex] = 0;
           startIndex ++;
           bitsLeft = 8;
         }
         else if(bitsLeft < 0){
-          sandwich[startIndex] = 0;
+          sandy[startIndex] = 0;
           startIndex ++;
-          tempChar = sandwich[startIndex];
+          tempChar = sandy[startIndex];
           printf("bitsLeft is %i\n", bitsLeft );
           tempChar <<= abs(bitsLeft);
           printf("bitsLeft * -1 is %i\n", bitsLeft );
-          sandwich[startIndex] = tempChar;
+          sandy[startIndex] = tempChar;
           bitsLeft += 8;
         }
         else{
@@ -344,18 +344,18 @@ nybble(){
     else{
         nybbles ++;
         bitsLeft -= 4;
-        tempChar = sandwich[startIndex];
+        tempChar = sandy[startIndex];
         tempChar <<= 4;
-        sandwich[startIndex] = tempChar;
+        sandy[startIndex] = tempChar;
         if(bitsLeft == 0){
           startIndex ++;
           bitsLeft = 8;
         }
         else if(bitsLeft < 0){
           startIndex ++;
-          tempChar = sandwich[startIndex];
+          tempChar = sandy[startIndex];
           tempChar <<= abs(bitsLeft);
-          sandwich[startIndex] = tempChar;
+          sandy[startIndex] = tempChar;
           bitsLeft += 8;
         }
         calculateCrumbsLeft();
@@ -372,18 +372,18 @@ crumb(){
     else{
         crumbs ++;
         bitsLeft -= 2;
-        tempChar = sandwich[startIndex];
+        tempChar = sandy[startIndex];
         tempChar <<= 2;
-        sandwich[startIndex] = tempChar;
+        sandy[startIndex] = tempChar;
         if(bitsLeft == 0){
           startIndex ++;
           bitsLeft = 8;
         }
         else if(bitsLeft < 0){
           startIndex ++;
-          tempChar = sandwich[startIndex];
+          tempChar = sandy[startIndex];
           tempChar <<= abs(bitsLeft);
-          sandwich[startIndex] = tempChar;
+          sandy[startIndex] = tempChar;
           bitsLeft += 8;
         }
         calculateCrumbsLeft();
@@ -399,10 +399,10 @@ printfood(){
   //printf("\nBytes: %i \tNybbles: %i \tCrumbs: %i \tBits Left: %i \tCrumbs Left: %i.\n",bytes, nybbles, crumbs, crumbsLeft, (crumbsLeft*2));
     int i;
     printf("\n");
-   // for (i=0; i< endIndex; i++){
-   //     printf("%c",sandwich[i]);
-    //}
-    printf("%s",sandy);
+    for (i=0; i< endIndex; i++){
+        printf("%c",sandy[i]);
+    }
+    //printf("%s",sandy);
     //printf("%s",gameScreenBottom[0]);
     printf("%s",gameScreenBottom[1]);
     printf("%s",gameScreenBottom[2]);
