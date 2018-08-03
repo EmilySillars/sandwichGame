@@ -231,7 +231,7 @@ nybble(){
     else{
         printf("%i %c\n", sandwich[startIndex],sandwich[startIndex]);
         tempChar = sandwich[startIndex];
-        tempChar >> 2;
+        tempChar <<= 2;
         sandwich[startIndex] = tempChar;
         printf("%i %c\n", sandwich[startIndex],sandwich[startIndex]);
         if(sandwich[startIndex] == 0b0){
