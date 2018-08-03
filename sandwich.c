@@ -10,12 +10,16 @@
 
 #include <stdio.h>
 #include <string.h>
-    char sandwich[19] = "\nI am a sandwich.\n";
+    //char * length = "\nI am a sandwich.\n";
+    char sandwich[18] = "I am a sandwich.\n";
 
-    int startIndex =0;
-    int endIndex = 18;
+    int startIndex = 0;
+    int endIndex = 17;
     char tempChar = 0;
-    //int nybbleCount = 2;
+
+    int bytes = 0;
+    int nybbles = 0;
+    int crumbs = 0;
 
 void main() {
     //three states, introduction screen, menu screen, and game.
@@ -26,16 +30,14 @@ void main() {
 	const LINESIZE = 50; //max line size of 50 characters. Any more and game might break.
 	char input[WORDSIZE]; //input string (one 7 character word, max).
 	char line[LINESIZE]; //input line (50 characters, max).
-    int bytes = 0;
-    int nybbles = 0;
-    int crumbs = 0;
+
 	//printf("address of input is %p\n",input);
-    char * introText = "\nWELCOME TO SANDWICH SIMULATOR!\nThis is placeholder text until we get fancy graphics...\nType 'start' and then press ENTER to begin.\n";
-    char * rulesText = "\nThese are the placeholder rules:\n1.Type 'byte'+ press ENTER to bite the sandwich. \n2.Type 'nybble' + press ENTER to nibble the sandwich.\n\n4.Type 'help' + press ENTER to return to this screen.\n5.Type 'quit' + press ENTER to quit the game.\n\nType 'start' + press ENTER for sandwich!\n";
+    char * introText = "\nWELCOME TO SANDWICH SIMULATOR!\nThis is placeholder text until we get fancy graphics...\nType 'eat' and then press ENTER to begin.\n";
+    char * rulesText = "\nThese are the placeholder rules:\n1.Type 'byte'+ press ENTER to bite the sandwich. \n2.Type 'nybble' + press ENTER to nibble the sandwich.\n\n4.Type 'help' + press ENTER to return to this screen.\n5.Type 'quit' + press ENTER to quit the game.\n\nType 'eat' + press ENTER for sandwich!\n";
     char * gameText = "\nIn the game. Byte or nybble. Type help for the rules."; 
 
      char state = INTRO; //begin with introduction screen.
-     printf("\nWELCOME TO SANDWICH SIMULATOR!\nThis is placeholder text until we get fancy graphics...\nType 'start' and then press ENTER to begin.\n");
+     printf("\nWELCOME TO SANDWICH SIMULATOR!\nThis is placeholder text until we get fancy graphics...\nType 'eat' and then press ENTER to begin.\n");
      //need to use fgets to read line, then use sscanf to parse that line.
      fgets(line, LINESIZE, stdin);
      sscanf(line,"%6s",input);
@@ -44,13 +46,13 @@ void main() {
             if(strcmp(input,"nybble") == 0){
             nybbles ++;
             printf("%s",gameText);
-            printf("\nBytes: %i \tNybbles: %i \tCrumbs Left: Unknown.\n",bytes, nybbles);
+            printf("\nBytes: %i \tNybbles: %i \tCrumbs Left: %i.\n",bytes, nybbles, crumbs);
             nybble();
             }
             else if(strcmp(input,"byte") == 0){
             bytes++;
             printf("%s",gameText);
-            printf("\nBytes: %i \tNybbles: %i \tCrumbs Left: Unknown.\n",bytes, nybbles);
+            printf("\nBytes: %i \tNybbles: %i \tCrumbs Left: %i.\n",bytes, nybbles, crumbs);
             bite();
             
             }
@@ -66,13 +68,14 @@ void main() {
     	   if(strcmp(input,"eat") == 0){
             state = GAME;
             printf("%s",gameText);
-            printf("\nBytes: %i \tNybbles: %i \tCrumbs Left: Unknown.\n",bytes, nybbles);
+            printf("\nBytes: %i \tNybbles: %i \tCrumbs Left: %i.\n",bytes, nybbles, crumbs);
+            printfood();
             }
             else if(strcmp(input,"nybble") == 0){
-            printf("\nYou can't nybble the sandwich here. Type 'start' and then press ENTER to get to the sandwich.\n");
+            printf("\nYou can't nybble the sandwich here. Type 'eat' and then press ENTER to get to the sandwich.\n");
             }
             else if(strcmp(input,"byte") == 0){
-            printf("\nYou can't byte the sandwich here. Type 'start' and then press ENTER to get to the sandwich.\n");
+            printf("\nYou can't byte the sandwich here. Type 'eat' and then press ENTER to get to the sandwich.\n");
             }
             else if(strcmp(input,"help") == 0){
             state = RULES;
@@ -83,7 +86,7 @@ void main() {
             }
         }
         else{ //INTRO SCREEN STATE
-            if(strcmp(input,"start") == 0){
+            if(strcmp(input,"eat") == 0){
             //change to rules screen
             state = RULES;
             printf("%s", rulesText);
@@ -94,7 +97,7 @@ void main() {
     sscanf(line,"%6s",input);
      }
      //BREAK OUT OF WHILE LO0P
-     printf("you typed %s\n", input);
+     printf("You typed %s. Exited game.\n", input);
      //printf("address of input is %p\n",input);
 /*
      scanf("%6s",input);
@@ -211,36 +214,36 @@ bite(){
         printf("Cannot byte the sandwich! No more bytes left!\n");
     }
     else{
-        printf("%i %c\n", sandwich[startIndex],sandwich[startIndex]);
+        //printf("%i %c\n", sandwich[startIndex],sandwich[startIndex]);
         sandwich[startIndex] = 0;
-        printf("%i %c\n", sandwich[startIndex],sandwich[startIndex]);
+        //printf("%i %c\n", sandwich[startIndex],sandwich[startIndex]);
         if(sandwich[startIndex] == 0b0){
         startIndex ++;
-        printf("incremented start index.\n");
+        //printf("incremented start index.\n");
         }
         printfood();
-     }   
-
+     } 
+     crumbs = (endIndex+1 - startIndex) * 4;
 }
 
 nybble(){
     if(startIndex > endIndex)
     {
-        printf("Cannot byte the sandwich! No more bytes left!\n");
+        printf("Cannot nybble the sandwich! No more bytes left!\n");
     }
     else{
-        printf("%i %c\n", sandwich[startIndex],sandwich[startIndex]);
+        //printf("%i %c\n", sandwich[startIndex],sandwich[startIndex]);
         tempChar = sandwich[startIndex];
-        tempChar <<= 2;
+        tempChar <<= 4;
         sandwich[startIndex] = tempChar;
-        printf("%i %c\n", sandwich[startIndex],sandwich[startIndex]);
+        //printf("%i %c\n", sandwich[startIndex],sandwich[startIndex]);
         if(sandwich[startIndex] == 0b0){
         startIndex ++;
-        printf("incremented start index.\n");
+        //printf("incremented start index.\n");
         }
         printfood();
      }   
-
+    crumbs = (endIndex+1 - startIndex) * 4;
 }
 
 printfood(){
@@ -249,7 +252,7 @@ printfood(){
     for (i=0; i< endIndex; i++){
         printf("%c",sandwich[i]);
     }
-    printf(" <= that's the sandwich.\n");
+    //printf(" <= that's the sandwich.\n");
 }
 
 /*
