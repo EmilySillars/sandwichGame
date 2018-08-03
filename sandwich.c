@@ -20,6 +20,11 @@
     int bytes = 0;
     int nybbles = 0;
     int crumbs = 0;
+    int crumbsLeft = 0;
+
+    int bitsLeft = 8;
+    //int meal = 0;
+    //int diff = 0;
 
 void main() {
     //three states, introduction screen, menu screen, and game.
@@ -34,7 +39,7 @@ void main() {
 	//printf("address of input is %p\n",input);
     char * introText = "\nWELCOME TO SANDWICH SIMULATOR!\nThis is placeholder text until we get fancy graphics...\nType 'eat' and then press ENTER to begin.\n";
     char * rulesText = "\nThese are the placeholder rules:\n1.Type 'byte'+ press ENTER to bite the sandwich. \n2.Type 'nybble' + press ENTER to nibble the sandwich.\n\n4.Type 'help' + press ENTER to return to this screen.\n5.Type 'quit' + press ENTER to quit the game.\n\nType 'eat' + press ENTER for sandwich!\n";
-    char * gameText = "\nIn the game. Byte or nybble. Type help for the rules."; 
+    //char * gameText = "\nByte, nybble, or eat crumb by crumb! Type 'help' for more info."; 
 
      char state = INTRO; //begin with introduction screen.
      printf("\nWELCOME TO SANDWICH SIMULATOR!\nThis is placeholder text until we get fancy graphics...\nType 'eat' and then press ENTER to begin.\n");
@@ -44,31 +49,24 @@ void main() {
      while((strcmp(input,"quit") != 0)){
         if(state == GAME){ //GAME STATE
             if(strcmp(input,"nybble") == 0){
-            nybbles ++;
-            printf("%s",gameText);
-            printf("\nBytes: %i \tNybbles: %i \tCrumbs Left: %i.\n",bytes, nybbles, crumbs);
             nybble();
             }
             else if(strcmp(input,"byte") == 0){
-            bytes++;
-            printf("%s",gameText);
-            printf("\nBytes: %i \tNybbles: %i \tCrumbs Left: %i.\n",bytes, nybbles, crumbs);
             bite();
-            
             }
             else if(strcmp(input,"help") == 0){
             state = RULES;
             printf("%s", rulesText);
             }
             else{
-            printf("\nsorry, that command is not recognized. check your spelling and type again,\n or type 'help' to see the rules.\n"); 
+            printCommandRejection();
             }
         }
         else if(state == RULES){ //RULES SCREEN STATE
     	   if(strcmp(input,"eat") == 0){
             state = GAME;
-            printf("%s",gameText);
-            printf("\nBytes: %i \tNybbles: %i \tCrumbs Left: %i.\n",bytes, nybbles, crumbs);
+            //printf("%s",gameText);
+            printFoodStatus();
             printfood();
             }
             else if(strcmp(input,"nybble") == 0){
@@ -82,7 +80,7 @@ void main() {
             printf("%s", rulesText);
             }
             else{
-            printf("\nsorry, that command is not recognized. check your spelling and type again,\n or type 'help' to see the rules.\n"); 
+            printCommandRejection();
             }
         }
         else{ //INTRO SCREEN STATE
@@ -214,36 +212,38 @@ bite(){
         printf("Cannot byte the sandwich! No more bytes left!\n");
     }
     else{
-        //printf("%i %c\n", sandwich[startIndex],sandwich[startIndex]);
+        bytes ++;
         sandwich[startIndex] = 0;
         //printf("%i %c\n", sandwich[startIndex],sandwich[startIndex]);
         if(sandwich[startIndex] == 0b0){
         startIndex ++;
         //printf("incremented start index.\n");
         }
+        calculateCrumbsLeft();
+        //printf("%s",gameText);
+        printFoodStatus();
         printfood();
      } 
-     crumbs = (endIndex+1 - startIndex) * 4;
 }
 
 nybble(){
     if(startIndex > endIndex)
     {
-        printf("Cannot nybble the sandwich! No more bytes left!\n");
+        printf("Cannot nybble the sandwich! No more nybbles left!\n");
     }
     else{
-        //printf("%i %c\n", sandwich[startIndex],sandwich[startIndex]);
+        nybbles ++;
         tempChar = sandwich[startIndex];
         tempChar <<= 4;
         sandwich[startIndex] = tempChar;
-        //printf("%i %c\n", sandwich[startIndex],sandwich[startIndex]);
         if(sandwich[startIndex] == 0b0){
-        startIndex ++;
-        //printf("incremented start index.\n");
+        startIndex ++;;
         }
+        calculateCrumbsLeft();
+        //printf("%s",gameText);
+        printFoodStatus();
         printfood();
      }   
-    crumbs = (endIndex+1 - startIndex) * 4;
 }
 
 printfood(){
@@ -252,7 +252,21 @@ printfood(){
     for (i=0; i< endIndex; i++){
         printf("%c",sandwich[i]);
     }
+    printf("\n");
     //printf(" <= that's the sandwich.\n");
+}
+
+printFoodStatus(){
+  printf("\nByte, nybble, or eat crumb by crumb! Type 'help' for more info."); 
+  printf("\nBytes: %i \tNybbles: %i \tCrumbs: %i \tCrumbs Left: %i.\n",bytes, nybbles, crumbs, crumbsLeft);
+}
+
+printCommandRejection(){
+  printf("Command not recognized. Type 'help' to see list of commands.\n"); 
+}
+
+calculateCrumbsLeft(){
+  crumbsLeft = (endIndex+1 - startIndex) * 4;
 }
 
 /*
@@ -398,7 +412,7 @@ them and decide if they need fixing.
 
 
 
-	                                Press ENTER to start...
+	                                Type 'eat' to start...
 	  
 
 
@@ -414,7 +428,7 @@ them and decide if they need fixing.
              |                                                                      |
              |                           BON APPETIT!                               |
              |                                                                      |
-             |                      Press ENTER for sandwich...                     |
+             |                      Type 'eat' to start...                          |
              |______________________________________________________________________|
 
 
