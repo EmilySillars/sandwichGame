@@ -26,6 +26,10 @@
     int bitsLeft = 8;
     //int meal = 0;
     //int diff = 0;
+    char * helpScreen[15];
+    char * gameScreenTop[2];
+    char * gameScreenBottom[3];
+
 
 void main() {
     //three states, introduction screen, menu screen, and game.
@@ -42,9 +46,65 @@ void main() {
     char * rulesText = "\nThese are the placeholder rules:\n1.Type 'byte'+ press ENTER to bite the sandwich. \n2.Type 'nybble' + press ENTER to nibble the sandwich.\n\n4.Type 'help' + press ENTER to return to this screen.\n5.Type 'quit' + press ENTER to quit the game.\n\nType 'eat' + press ENTER for sandwich!\n";
     //char * gameText = "\nByte, nybble, or eat crumb by crumb! Type 'help' for more info."; 
 
+    /**************************************/
+            gameScreenTop[0] = " ************************** SANDWICH SIMULATOR ***************************\n";
+            gameScreenTop[1] = " *                                                                       *\n";
+
+            gameScreenBottom[0] = " *                                                                       *\n";
+            gameScreenBottom[1] = " *                                                                       *\n";
+            gameScreenBottom[2] = " ***** Byte, nybble, or eat crumb by crumb! Type 'help' for more info. ***\n";
+
+            helpScreen[0] = " *  ____________________________________________________________________ *\n";
+            helpScreen[1] = " * |--------------------------------------------------------------------|*\n";
+            helpScreen[2] = " * |                           --THE RULES--                            |*\n";
+            helpScreen[3] = " * | 1.Type 'byte'+ press ENTER to bite the sandwich.                   |*\n";
+            helpScreen[4] = " * | 2.Type 'nybble' + press ENTER to nibble the sandwich.              |*\n";
+            helpScreen[5] = " * | 3.Type 'crumb' + press ENTER to eat a crumb from the sandwich.     |*\n";
+            helpScreen[6] = " * |                                                                    |*\n";
+            helpScreen[7] = " * | 4.Type 'help' + press ENTER to return to this screen.              |*\n";
+            helpScreen[8] = " * | 5.Type 'quit' + press ENTER to quit the game.                      |*\n";
+            helpScreen[9] = " * |                                                                    |*\n";
+            helpScreen[10] = " * |                           BON APPETIT!                             |*\n";
+            helpScreen[11] = " * |                                                                    |*\n";
+            helpScreen[12] = " * |                      Type 'eat' to start...                        |*\n";
+            helpScreen[13] = " * |____________________________________________________________________|*\n";                                                                 
+            helpScreen[14] = " *                                                                       *\n";
+
+          char * intro[20];
+          intro [0] = " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n";
+          intro [1] = " *                                                                  __   *\n";
+          intro [2] = " *     /\\            __    __  __    __     __  ______    ___  __   | |  *\n";
+          intro [3] = " *    /  \\    /^\\   |  \\   || | .\\   ||     || |__  __|  / _ \\ | |  | |  *\n";
+          intro [4] = " *   / /|_\\  /  .\\  | \\ \\  || ||\\.\\  ||     ||    ||    | / \\/ | |  | |  *\n";
+          intro [5] = " *   \\ \\    | /\\ .| | |\\ \\ || || \\.| ||     ||    ||    | |    | |__| |  *\n";
+          intro [6] = " *    \\ \\   | || .| | | \\ \\|| || |.| || /^\\ ||    ||    | |    | ,--, |  *\n";
+          intro [7] = " *   __\\ \\  |  _ .| | |  \\  | || /.| ||//^\\\\||    ||    | |    | |  | |  *\n";
+          intro [8] = " *   \\ \\| / | | | | | |   \\ | ||/./  | /   \\\\|  __||__  | \\_/\\ | |  | |  *\n";
+          intro [9] = " *    \\  /  |_| |_| |_|    \\| |__/   |/     \\| |______|  \\___/ |_|  | |  *\n";
+          intro [10] = " *     \\/                                                           |_|  *\n";
+          intro [11] = " *                                                                       *\n";
+          intro [12] = " *                    __                 _  ___ _   _                    *\n";
+          intro [13] = " *                    \\ `| |\\/| | | |   |_|  | / \\ |_\\                   *\n";
+          intro [14] = " *                   \\_\\ | |  | |_| |__ | |  | \\_/ | \\                   *\n";
+          intro [15] = " *                                                                       *\n";
+          intro [16] = " *                                                                       *\n";
+          intro [17] = " *                                                                       *\n";
+          intro [18] = " *                         Type 'eat' to start...                        *\n";
+          intro [19] = " *                                                                       *\n";
+  
+     
+    /**************************************/
+    //printf("*********************************\n");
+
      char state = INTRO; //begin with introduction screen.
+     //print introduction screen
+     int j;
+     for(j =0; j<20; j++){
+      printf("%s",intro[j]);
+     }
      calculateCrumbsLeft();
-     printf("\nWELCOME TO SANDWICH SIMULATOR!\nThis is placeholder text until we get fancy graphics...\nType 'eat' and then press ENTER to begin.\n");
+     //printf("\nWELCOME TO SANDWICH SIMULATOR!\nThis is placeholder text until we get fancy graphics...\nType 'eat' and then press ENTER to begin.\n");
+   
      //need to use fgets to read line, then use sscanf to parse that line.
      fgets(line, LINESIZE, stdin);
      sscanf(line,"%6s",input);
@@ -61,7 +121,7 @@ void main() {
             }
             else if(strcmp(input,"help") == 0){
             state = RULES;
-            printf("%s", rulesText);
+            printRules();
             }
             else{
             printCommandRejection();
@@ -85,7 +145,7 @@ void main() {
             }
             else if(strcmp(input,"help") == 0){
             state = RULES;
-            printf("%s", rulesText);
+            printRules();
             }
             else{
             printCommandRejection();
@@ -100,7 +160,7 @@ void main() {
             else if(strcmp(input,"help") == 0){
             //change to rules screen
             state = RULES;
-            printf("%s", rulesText);
+            printRules();
             }
             else{
             printCommandRejection();   
@@ -112,7 +172,7 @@ void main() {
      }
      //BREAK OUT OF WHILE LO0P
      //printf("You typed %s. Exited game.\n", input);
-     printf("Exited simulator. See you later!\n");
+     printf(" *                                                                       *\n * Exited simulator. See you later!                                      *\n *                                                                       *\n * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n");
      //printf("address of input is %p\n",input);
 /*
      scanf("%6s",input);
@@ -312,15 +372,20 @@ crumb(){
 }
 
 printfood(){
-  printf("\nByte, nybble, or eat crumb by crumb! Type 'help' for more info."); 
-  printf("\nBytes: %i \tNybbles: %i \tCrumbs: %i \tBits Left: %i.\n",bytes, nybbles, crumbs, crumbsLeft);
+  //printf("\nByte, nybble, or eat crumb by crumb! Type 'help' for more info."); 
+  printf("%s",gameScreenTop[0]);
+  printf("%s",gameScreenTop[1]);
+  printf("      Bytes: %i \tNybbles: %i \tCrumbs: %i \tBits Left: %i.\n",bytes, nybbles, crumbs, crumbsLeft);
   //printf("\nBytes: %i \tNybbles: %i \tCrumbs: %i \tBits Left: %i \tCrumbs Left: %i.\n",bytes, nybbles, crumbs, crumbsLeft, (crumbsLeft*2));
     int i;
     printf("\n");
     for (i=0; i< endIndex; i++){
         printf("%c",sandwich[i]);
     }
-    printf("\n");
+    printf("%s",gameScreenBottom[0]);
+    printf("%s",gameScreenBottom[1]);
+    printf("%s",gameScreenBottom[2]);
+    //printf("\n");
     //printf(" <= that's the sandwich.\n");
 }
 
@@ -330,6 +395,13 @@ printCommandRejection(){
 
 calculateCrumbsLeft(){
   crumbsLeft = ((endIndex - startIndex) * 8) + bitsLeft;
+}
+
+printRules(){
+  int k;
+  for(k = 0; k < 15; k++){
+    printf("%s", helpScreen[k]);
+  }
 }
 
 /*
@@ -458,18 +530,18 @@ them and decide if they need fixing.
 */
 
 /*
-                                                                              __
-		         /\            __    __  __    __     __  ______    ___  __   | |
-		        /  \    /^\   |  \   || | .\   ||     || |__  __|  / _ \ | |  | | 
-			   / /|_\  /  .\  | \ \  || ||\.\  ||     ||    ||    | / \/ | |  | | 
-			   \ \    | /\ .| | |\ \ || || \.| ||     ||    ||    | |    | |__| |
-			    \ \   | || .| | | \ \|| || |.| || /^\ ||    ||    | |    | ,--, |
-   			   __\ \  |  _ .| | |  \  | || /.| ||//^\\||    ||    | |    | |  | |
+                                                                               __
+		             /\            __    __  __    __     __  ______    ___  __   | |
+		            /  \    /^\   |  \   || | .\   ||     || |__  __|  / _ \ | |  | | 
+			         / /|_\  /  .\  | \ \  || ||\.\  ||     ||    ||    | / \/ | |  | | 
+			         \ \    | /\ .| | |\ \ || || \.| ||     ||    ||    | |    | |__| |
+			          \ \   | || .| | | \ \|| || |.| || /^\ ||    ||    | |    | ,--, |
+   			       __\ \  |  _ .| | |  \  | || /.| ||//^\\||    ||    | |    | |  | |
                \ \| / | | | | | |   \ | ||/./  | /   \\|  __||__  | \_/\ | |  | |
                 \  /  |_| |_| |_|    \| |__/   |/     \| |______|  \___/ |_|  | |
                  \/                                                           |_|
 
-                                __                 _  ___ _   _
+                              __                 _  ___ _   _
 	                            \ `| |\/| | | |   |_|  | / \ |_\
 	                           \_\ | |  | |_| |__ | |  | \_/ | \
 
@@ -484,7 +556,7 @@ them and decide if they need fixing.
              |                           --THE RULES--                              |
              | 1.Type 'byte'+ press ENTER to bite the sandwich.                     |
              | 2.Type 'nybble' + press ENTER to nibble the sandwich.                |
-             | 3.Press ENTER to repeat the previous command.                        |
+             | 3.Type 'crumb' + press ENTER to eat a crumb from the sandwich.       |
              |                                                                      |
              | 4.Type 'help' + press ENTER to return to this screen.                |
              | 5.Type 'quit' + press ENTER to quit the game.                        |
@@ -512,47 +584,93 @@ them and decide if they need fixing.
 
 
             * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-            *                                                                  __
-		    *     /\            __    __  __    __     __  ______    ___  __   | |
-		    *    /  \    /^\   |  \   || | .\   ||     || |__  __|  / _ \ | |  | | 
-			*   / /|_\  /  .\  | \ \  || ||\.\  ||     ||    ||    | / \/ | |  | | 
-			*   \ \    | /\ .| | |\ \ || || \.| ||     ||    ||    | |    | |__| |
-			*    \ \   | || .| | | \ \|| || |.| || /^\ ||    ||    | |    | ,--, |
-   			*   __\ \  |  _ .| | |  \  | || /.| ||//^\\||    ||    | |    | |  | |
-            *   \ \| / | | | | | |   \ | ||/./  | /   \\|  __||__  | \_/\ | |  | |
-            *    \  /  |_| |_| |_|    \| |__/   |/     \| |______|  \___/ |_|  | |
-            *     \/                                                           |_|
-            *
-            *                    __                 _  ___ _   _
-	        *                    \ `| |\/| | | |   |_|  | / \ |_\
-	        *                   \_\ | |  | |_| |__ | |  | \_/ | \
-            *
-            *
-            *
-	        *                       Press ENTER to start...
-	        *
-            *
-            *
+            *                                                                  __   *
+		        *     /\            __    __  __    __     __  ______    ___  __   | |  *
+		        *    /  \    /^\   |  \   || | .\   ||     || |__  __|  / _ \ | |  | |  *
+			      *   / /|_\  /  .\  | \ \  || ||\.\  ||     ||    ||    | / \/ | |  | |  *
+			      *   \ \    | /\ .| | |\ \ || || \.| ||     ||    ||    | |    | |__| |  *
+			      *    \ \   | || .| | | \ \|| || |.| || /^\ ||    ||    | |    | ,--, |  *
+   			    *   __\ \  |  _ .| | |  \  | || /.| ||//^\\||    ||    | |    | |  | |  *
+            *   \ \| / | | | | | |   \ | ||/./  | /   \\|  __||__  | \_/\ | |  | |  *
+            *    \  /  |_| |_| |_|    \| |__/   |/     \| |______|  \___/ |_|  | |  *
+            *     \/                                                           |_|  *
+            *                                                                       *
+            *                    __                 _  ___ _   _                    *
+	          *                    \ `| |\/| | | |   |_|  | / \ |_\                   *
+	          *                   \_\ | |  | |_| |__ | |  | \_/ | \                   *
+            *                                                                       *
+            *                                                                       *
+            *                                                                       *
+	          *                         Type 'eat' to start...                        *
+	          *                                                                       *
+             
+            *  ____________________________________________________________________ *
+            * |--------------------------------------------------------------------|*
+            * |                           --THE RULES--                            |*
+            * | 1.Type 'byte'+ press ENTER to bite the sandwich.                   |*
+            * | 2.Type 'nybble' + press ENTER to nibble the sandwich.              |*
+            * | 3.Type 'crumb' + press ENTER to eat a crumb from the sandwich.     |*
+            * |                                                                    |*
+            * | 4.Type 'help' + press ENTER to return to this screen.              |*
+            * | 5.Type 'quit' + press ENTER to quit the game.                      |*
+            * |                                                                    |*
+            * |                           BON APPETIT!                             |*
+            * |                                                                    |*
+            * |                      Type 'eat' to start...                        |*
+            * |____________________________________________________________________|*                                                                     
+            *                                                                       *
+            * Exited simulator. See you later!                                      *\n
+            *                                                                       *\n
 
 
-		       ____________________________     _____
-    	      ||---------------------------\\  /-----\\ 
-    	  ,---|| . . . . . . . . . . . . . .\\/. . . . \\----,
-		  |   ||. . . . . . . . . . . . . . . . . . . . .\\  |
-		  |   ||. . . . . . . . . . . . . . . . . . . . . || |
-		  |   ||. . . . . . . . . . . . . . . . . . . . . || |
-		  |   ||. . . . . . . . . . . . . . . . . . . . . || |
-		  |   ||. . . . . . . . . . . . . . . . . . . . .//| |
-		  |   ||. . . . . . . . . . . . . . . /\ . . ....//| |
-		  |   ||_._._.__._._._._._._._._._._./||\._._._//||  |
-		  |   | | | | | | | | | | | | | | | | ||| | | |||/   |
-		  |   |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|,/\|_|_|/,/     |
-		  |                                                  |
-		  `----,----------------------------------------,----'
-		   (  ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) (,) 
-		    `\/^\_/^\_/^\_/^\_/^\_/^\_/^\_/^\_/^\_/^\_/^\__)
-		      | | | | | | | | | | | | | | | | ||| | | |||/
-              |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|,/\|_|_|/,/
+
+            ************************** SANDWICH SIMULATOR ***************************
+            *                                                                       *
+                          Bytes: 0  Nybbles: 0  Crumbs: 0   Bits Left: 144.
+		                           ____________________________     _____
+    	                       ||---------------------------\\  /-----\\ 
+                         ,---|| . . . . . . . . . . . . . .\\/. . . . \\----,
+		                     |   ||. . . . . . . . . . . . . . . . . . . . .\\  |
+		                     |   ||. . . . . . . . . . . . . . . . . . . . . || |
+		                     |   ||. . . . . . . . . . . . . . . . . . . . . || |
+		                     |   ||. . . . . . . . . . . . . . . . . . . . . || |
+		                     |   ||. . . . . . . . . . . . . . . . . . . . .//| |
+		                     |   ||. . . . . . . . . . . . . . . /\ . . ....//| |
+		                     |   ||_._._.__._._._._._._._._._._./||\._._._//||  |
+		                     |   | | | | | | | | | | | | | | | | ||| | | |||/   |
+		                     |   |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|,/\|_|_|/,/     |
+		                     |                                                  |
+		                     `----,----------------------------------------,----'
+		                      (  ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) (,) 
+		                       `\/^\_/^\_/^\_/^\_/^\_/^\_/^\_/^\_/^\_/^\_/^\__)
+		                         | | | | | | | | | | | | | | | | ||| | | |||/
+                             |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|,/\|_|_|/,/              
+            *                                                                       *
+            *                                                                       *
+            ***** Byte, nybble, or eat crumb by crumb! Type 'help' for more info. ***
+
+
+
+
+
+                              ____________________________     _____
+          ||---------------------------\\  /-----\\ 
+      ,---|| . . . . . . . . . . . . . .\\/. . . . \\----,
+      |   ||. . . . . . . . . . . . . . . . . . . . .\\  |
+      |   ||. . . . . . . . . . . . . . . . . . . . . || |
+      |   ||. . . . . . . . . . . . . . . . . . . . . || |
+      |   ||. . . . . . . . . . . . . . . . . . . . . || |
+      |   ||. . . . . . . . . . . . . . . . . . . . .//| |
+      |   ||. . . . . . . . . . . . . . . /\ . . ....//| |
+      |   ||_._._.__._._._._._._._._._._./||\._._._//||  |
+      |   | | | | | | | | | | | | | | | | ||| | | |||/   |
+      |   |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|,/\|_|_|/,/     |
+      |                                                  |
+      `----,----------------------------------------,----'
+       (  ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) (,) 
+        `\/^\_/^\_/^\_/^\_/^\_/^\_/^\_/^\_/^\_/^\_/^\__)
+          | | | | | | | | | | | | | | | | ||| | | |||/
+          |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|,/\|_|_|/,/
 
 
 */
