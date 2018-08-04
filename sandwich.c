@@ -13,6 +13,12 @@
 #include <math.h>
     //char * length = "\nI am a sandwich.\n";
     //char sandwich[18] = "I am a sandwich.\n";
+    const BITE = 3;
+    const NYBBLE = 4;
+    const CRUMB = 5;
+
+    int prevCommand = 3;
+    int repeat = 0;
 
     int startIndex = 17;
     int endIndex = 1159;
@@ -24,9 +30,10 @@
     int crumbsLeft = 0;
 
     int bitsLeft = 8;
-    //int meal = 0;
-    //int diff = 0;
-    char * helpScreen[15];
+
+    int times;
+
+    char * helpScreen[16];
     char * gameScreenTop[2];
     char * gameScreenBottom[3];
     char sandy[1160] ="                  ____________________________     _____\n                 ||---------------------------\\\\  /-----\\\\\n             ,---|| . . . . . . . . . . . . . .\\\\/. . . . \\\\----,\n             |   ||. . . . . . . . . . . . . . . . . . . . .\\\\  |\n             |   ||. . . . . . . . . . . . . . . . . . . . . || |\n             |   ||. . . . . . . . . . . . . . . . . . . . . || |\n             |   ||. . . . . . . . . . . . . . . . . . . . . || |\n             |   ||. . . . . . . . . . . . . . . . . . . . .//| |\n             |   ||. . . . . . . . . . . . . . . /\\ . . ....//| |\n             |   ||_._._.__._._._._._._._._._._./||\\._._._//||  |\n             |   | | | | | | | | | | | | | | | | ||| | | |||/   |\n             |   |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|,/\\|_|_|/,/     |\n             |                                                  |\n             `----,----------------------------------------,----'\n              (  ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) (,)\n               `\\/^\\_/^\\_/^\\_/^\\_/^\\_/^\\_/^\\_/^\\_/^\\_/^\\_/^\\__)\n                 | | | | | | | | | | | | | | | | ||| | | |||/\n                 |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|,/\\|_|_|/,/\n";
@@ -34,9 +41,10 @@
 
 void main() {
     //three states, introduction screen, menu screen, and game.
-    const INTRO = 0;
-    const RULES = 1;
-    const GAME = 2;
+  const INTRO = 0;
+  const RULES = 1;
+  const GAME = 2;
+
 	const WORDSIZE = 7; //max word size of seven characters, including null terminator.
 	const LINESIZE = 50; //max line size of 50 characters. Any more and game might break.
 	char input[WORDSIZE]; //input string (one 7 character word, max).
@@ -46,7 +54,7 @@ void main() {
     char * introText = "\nWELCOME TO SANDWICH SIMULATOR!\nThis is placeholder text until we get fancy graphics...\nType 'eat' and then press ENTER to begin.\n";
     char * rulesText = "\nThese are the placeholder rules:\n1.Type 'byte'+ press ENTER to bite the sandwich. \n2.Type 'nybble' + press ENTER to nibble the sandwich.\n\n4.Type 'help' + press ENTER to return to this screen.\n5.Type 'quit' + press ENTER to quit the game.\n\nType 'eat' + press ENTER for sandwich!\n";
     //char * gameText = "\nByte, nybble, or eat crumb by crumb! Type 'help' for more info."; 
-printf("The length of sandy is %i\n",(int)strlen(sandy));
+//printf("The length of sandy is %i\n",(int)strlen(sandy));
     /**************************************/
        /************************** SANDWICH SIMULATOR ***************************
             *                                                                       
@@ -80,15 +88,16 @@ printf("The length of sandy is %i\n",(int)strlen(sandy));
             helpScreen[3] = " * | 1.Type 'byte'+ press ENTER to bite the sandwich.                   |*\n";
             helpScreen[4] = " * | 2.Type 'nybble' + press ENTER to nibble the sandwich.              |*\n";
             helpScreen[5] = " * | 3.Type 'crumb' + press ENTER to eat a crumb from the sandwich.     |*\n";
-            helpScreen[6] = " * |                                                                    |*\n";
-            helpScreen[7] = " * | 4.Type 'help' + press ENTER to return to this screen.              |*\n";
-            helpScreen[8] = " * | 5.Type 'quit' + press ENTER to quit the game.                      |*\n";
-            helpScreen[9] = " * |                                                                    |*\n";
-            helpScreen[10] = " * |                           BON APPETIT!                             |*\n";
-            helpScreen[11] = " * |                                                                    |*\n";
-            helpScreen[12] = " * |                      Type 'eat' to start...                        |*\n";
-            helpScreen[13] = " * |____________________________________________________________________|*\n";                                                                 
-            helpScreen[14] = " *                                                                       *\n";
+            helpScreen[6] = " * | 4.Type 'repeat' + press enter to repeat the previous command.      |*\n";
+            helpScreen[7] = " * |                                                                    |*\n";
+            helpScreen[8] = " * | 5.Type 'help' + press ENTER to return to this screen.              |*\n";
+            helpScreen[9] = " * | 6.Type 'quit' + press ENTER to quit the game.                      |*\n";
+            helpScreen[10] = " * |                                                                    |*\n";
+            helpScreen[11] = " * |                           BON APPETIT!                             |*\n";
+            helpScreen[12] = " * |                                                                    |*\n";
+            helpScreen[13] = " * |                      Type 'eat' to start...                        |*\n";
+            helpScreen[14] = " * |____________________________________________________________________|*\n";                                                                 
+            helpScreen[15] = " *                                                                       *\n";
 
           char * intro[20];
           intro [0] = " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n";
@@ -143,6 +152,19 @@ printf("The length of sandy is %i\n",(int)strlen(sandy));
             state = RULES;
             printRules();
             }
+            else if(strcmp(input,"repeat") == 0){
+            printf(" * Repeat the previous command how many times? ");
+            times = 0;
+            fgets(line, LINESIZE, stdin);
+            sscanf(line,"%i",&times);
+                if(times == 0){
+                printf(" * Invalid value. Only numbers allowed.\n");
+                }
+                else{
+                repeat = 1;
+                repeatCommand(times);
+                }
+            }
             else{
             printCommandRejection();
             }
@@ -155,13 +177,13 @@ printf("The length of sandy is %i\n",(int)strlen(sandy));
             printfood();
             }
             else if(strcmp(input,"nybble") == 0){
-            printf("\nYou can't nybble the sandwich here. Type 'eat' and then press ENTER to get to the sandwich.\n");
+            printf("\n * You can't nybble the sandwich here. Type 'eat' and then press ENTER to get to the sandwich.\n");
             }
             else if(strcmp(input,"byte") == 0){
-            printf("\nYou can't byte the sandwich here. Type 'eat' and then press ENTER to get to the sandwich.\n");
+            printf("\n * You can't byte the sandwich here. Type 'eat' and then press ENTER to get to the sandwich.\n");
             }
             else if(strcmp(input,"crumb") == 0){
-            printf("\nYou can't eat a crumb from the sandwich here. Type 'eat' and then press ENTER for the sandwich.\n");
+            printf("\n * You can't eat a crumb from the sandwich here. Type 'eat' and then press ENTER for the sandwich.\n");
             }
             else if(strcmp(input,"help") == 0){
             state = RULES;
@@ -306,10 +328,16 @@ printf("The length of sandy is %i\n",(int)strlen(sandy));
 bite(){
     if(crumbsLeft < 8)
     {
+      if(repeat == 1){
+        repeat = 0;
+      }
+      else{
         printfood();
-        printf("Cannot byte the sandwich! No more bytes left!\n");
+        printf(" * Cannot byte the sandwich! No more bytes left!\n");
+      }
     }
     else{
+        prevCommand = BITE;
         bytes ++;
         bitsLeft -= 8;
         if(bitsLeft == 0){
@@ -338,10 +366,16 @@ bite(){
 nybble(){
     if(crumbsLeft < 4)
     {
+        if(repeat == 1){
+        repeat = 0;
+        }
+        else{
         printfood();
-        printf("Cannot nybble the sandwich! No more nybbles left!\n");
+        printf(" * Cannot nybble the sandwich! No more nybbles left!\n");
+        }
     }
     else{
+        prevCommand = NYBBLE;
         nybbles ++;
         bitsLeft -= 4;
         tempChar = sandy[startIndex];
@@ -366,10 +400,16 @@ nybble(){
 crumb(){
     if(crumbsLeft < 2)
     {
+        if(repeat == 1){
+        repeat = 0;
+        }
+        else{
         printfood();
-        printf("Cannot eat a crumb from the sandwich! The sandwich is gone!\n");
+        printf("* Cannot eat a crumb from the sandwich! The sandwich is gone!\n");
+        }
     }
     else{
+        prevCommand = CRUMB;
         crumbs ++;
         bitsLeft -= 2;
         tempChar = sandy[startIndex];
@@ -406,12 +446,16 @@ printfood(){
     //printf("%s",gameScreenBottom[0]);
     printf("%s",gameScreenBottom[1]);
     printf("%s",gameScreenBottom[2]);
+    //if(crumbsLeft == 0){
+     // printf(" * * * * * * * * * * * * * * * * *  YUM !  * * * * * * * * * * * * * * * *\n");
+      //printf("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
+    //}
     //printf("\n");
     //printf(" <= that's the sandwich.\n");
 }
 
 printCommandRejection(){
-  printf("Command not recognized. Type 'help' to see list of commands.\n"); 
+  printf(" * Command not recognized. Type 'help' to see list of commands.\n"); 
 }
 
 calculateCrumbsLeft(){
@@ -425,6 +469,46 @@ printRules(){
   }
 }
 
+repeatCommand(int times){
+  //printf("inside repeatCommand function.");
+  int g = 0;
+  switch(prevCommand){
+    case 3: //byte
+    //printf("Okay, I'll repeat %i times.\n",times);
+    while(repeat != 0 && g <= times){
+      bite();
+      //printf("biting %i times so far.", g);
+      g++;
+    }
+    repeat = 1;
+    break;
+
+    case 4: //nybble
+    while(repeat != 0 && g <= times){
+      nybble();
+      g++;
+      //printf("nybbling %i times so far.", g);
+    }
+    repeat = 1;
+    //printf("Okay, I'll repeat %i times.\n",times);
+    break;
+
+    case 5: //crumb
+    while(repeat != 0 && g <= times){
+      crumb();
+      g++;
+      //printf("Eaten %i crumbs so far.", g);
+    }
+    repeat = 1;
+    //printf("Okay, I'll repeat %i times.\n",times);
+    break;
+
+    default:
+    printf("ERROR: repeat function found an invalid value for variable prevCommand!");
+    break;
+  }
+  //printf("exited switch statement\n");
+}
 /*
 #include <stdio.h>
 
