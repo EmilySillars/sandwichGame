@@ -433,12 +433,6 @@ printfood(){
     //printf("%s",gameScreenBottom[0]);
     printf("%s",gameScreenBottom[1]);
     printf("%s",gameScreenBottom[2]);
-    if(crumbsLeft == 0){
-     // printf(" * * * * * * * * * * * * * * * * *  YUM !  * * * * * * * * * * * * * * * *\n");
-      //printf("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
-    //}
-    //printf("\n");
-    //printf(" <= that's the sandwich.\n");
 }
 
 printCommandRejection(){
