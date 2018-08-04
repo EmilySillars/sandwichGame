@@ -18,7 +18,7 @@
     const CRUMB = 5;
 
     int prevCommand = 3;
-    int repeat = 0;
+    int repeat = 1;
 
     int startIndex = 17;
     int endIndex = 1159;
@@ -161,7 +161,6 @@ void main() {
                 printf(" * Invalid value. Only numbers allowed.\n");
                 }
                 else{
-                repeat = 1;
                 repeatCommand(times);
                 }
             }
@@ -328,13 +327,9 @@ void main() {
 bite(){
     if(crumbsLeft < 8)
     {
-      if(repeat == 1){
         repeat = 0;
-      }
-      else{
         printfood();
         printf(" * Cannot byte the sandwich! No more bytes left!\n");
-      }
     }
     else{
         prevCommand = BITE;
@@ -366,13 +361,9 @@ bite(){
 nybble(){
     if(crumbsLeft < 4)
     {
-        if(repeat == 1){
         repeat = 0;
-        }
-        else{
         printfood();
         printf(" * Cannot nybble the sandwich! No more nybbles left!\n");
-        }
     }
     else{
         prevCommand = NYBBLE;
@@ -400,13 +391,9 @@ nybble(){
 crumb(){
     if(crumbsLeft < 2)
     {
-        if(repeat == 1){
         repeat = 0;
-        }
-        else{
         printfood();
         printf("* Cannot eat a crumb from the sandwich! The sandwich is gone!\n");
-        }
     }
     else{
         prevCommand = CRUMB;
@@ -446,7 +433,7 @@ printfood(){
     //printf("%s",gameScreenBottom[0]);
     printf("%s",gameScreenBottom[1]);
     printf("%s",gameScreenBottom[2]);
-    //if(crumbsLeft == 0){
+    if(crumbsLeft == 0){
      // printf(" * * * * * * * * * * * * * * * * *  YUM !  * * * * * * * * * * * * * * * *\n");
       //printf("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
     //}
